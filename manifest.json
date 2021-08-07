@@ -1,0 +1,19 @@
+{
+  "required_api_version": "^2.0.0",
+  "name": "Johnny Decimal",
+  "description": "An extension to use the Johnny Decimal workflow",
+  "developer_name": "Bryton Lacquement",
+  "icon": "images/icon.png",
+  "options": {
+    "query_debounce": 0.1
+  },
+  "preferences": [
+    {
+      "id": "jd_kw",
+      "type": "keyword",
+      "name": "Johnny Decimal",
+      "description": "Use the Johnny Decimal workflow",
+      "default_value": "jd"
+    }
+  ]
+}
