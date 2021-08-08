@@ -12,8 +12,15 @@
       "id": "jd_kw",
       "type": "keyword",
       "name": "Johnny Decimal",
-      "description": "Use the Johnny Decimal workflow",
+      "description": "Open a Johnny Decimal component",
       "default_value": "jd"
+    },
+    {
+      "id": "jdn_kw",
+      "type": "keyword",
+      "name": "Johnny Decimal (New)",
+      "description": "Create a new Johnny Decimal component",
+      "default_value": "jdn"
     }
   ]
 }
