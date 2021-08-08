@@ -1,6 +1,6 @@
 # ulauncher-jd
 
-> 🚧 WIP README 🚧
+> 🚧 The project currently lacks features and cannot be qualified as stable for the moment. WIP. 🚧
 
 A [Ulauncher](https://ulauncher.io/) extension for the [Johnny Decimal](https://johnnydecimal.com/) filing system.
 
