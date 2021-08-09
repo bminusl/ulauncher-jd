@@ -5,9 +5,9 @@ from ulauncher.api.shared.action.RenderResultListAction import (
 )
 from ulauncher.api.shared.event import KeywordQueryEvent
 
-from ulauncher_jd.format import match_type
+from ulauncher_jd import BASEDIR_INFO
+from ulauncher_jd.filesystem import find, search
 from ulauncher_jd.items import create_component_item, open_component_item
-from ulauncher_jd.search import search
 
 
 class JohnnyDecimalExtension(Extension):
@@ -26,33 +26,26 @@ class KeywordQueryEventListener(EventListener):
         items = []
 
         if kw == extension.preferences["jd_kw"]:
-            for item_args in sorted(search(user_text)):
-                items.append(open_component_item(*item_args))
+            for component_info in search(user_text):
+                items.append(open_component_item(component_info))
         elif kw == extension.preferences["jdn_kw"]:
 
             if len(query) >= 2:
                 # BBB: walrus operator
                 #
-                # The 2nd argument is potentially a parent number
+                # The 2nd argument (query[1]) is potentially a parent number
                 # i.e. `XX-XX` (area) or `XX` (category)
-                parent_number = query[1]
-                parent_type = match_type(parent_number)
-                if parent_type:
-                    child_type = {"area": "category", "category": "id"}[
-                        parent_type
-                    ]
-                    # XXX: in 2 steps because black add ' ' before `:`
-                    x = len(parent_number) + 1
-                    user_text = user_text[x:]
+                parent_info = find(query[1])
+                if parent_info and parent_info.type != "id":
+                    # XXX: in 2 steps because black adds ' ' before `:`
+                    x = len(query[1]) + 1
                     items.append(
                         create_component_item(
-                            child_type,
-                            user_text,
-                            parent_info=(parent_type, parent_number),
+                            user_text[x:].strip(), parent_info
                         )
                     )
-                else:
-                    items.append(create_component_item("area", user_text))
+
+                items.append(create_component_item(user_text, BASEDIR_INFO))
 
         return RenderResultListAction(items)
 
