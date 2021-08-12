@@ -23,13 +23,13 @@ def create_component_item(new_name, parent_info):
 
     component_info = next_available_component(new_name, parent_info)
 
-    display_name = os.path.basename(component_info.abspath)
     description = f"Create a new {display_type(component_info.type)}"
     if parent_info.type is not None:
-        description += f' in {display_type(parent_info.type)} "{display_name}"'
+        description += f' in {display_type(parent_info.type)} "{os.path.basename(parent_info.abspath)}"'  # noqa: E501
 
     # BBB: walrus operator
     if new_name:
+        display_name = os.path.basename(component_info.abspath)
         action = None
     else:
         display_name = '<span style="italic">Please enter a name</span>'
