@@ -33,7 +33,7 @@ def create_component_item(new_name, component_info, parent_info):
             {"type": "mkdir", "abspath": component_info.abspath}
         )
     else:
-        display_name = '<span style="italic">Please enter a name</span>'
+        display_name = '<span style="italic">Type a name...</span>'
         action = None
 
     return ExtensionResultItem(
