@@ -23,6 +23,9 @@ class JohnnyDecimalExtension(Extension):
 class KeywordQueryEventListener(EventListener):
     def on_event(self, event, extension):
 
+        # XXX: should this be here?
+        os.makedirs(BASEDIR_INFO.abspath, exist_ok=True)
+
         query = event.query.split(" ")
         kw = query[0]
         user_text = " ".join(query[1:])
