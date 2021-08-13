@@ -49,7 +49,7 @@ def valid_area_numbers():
 
 def valid_category_numbers(parent_info):
     lower, upper = parent_info.number_data
-    return range(lower, upper + 1)
+    return range(lower + 1, upper + 1)
 
 
 def valid_id_numbers(parent_info):
