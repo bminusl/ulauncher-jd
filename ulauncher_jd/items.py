@@ -3,8 +3,6 @@ import os
 from ulauncher.api.shared.action.OpenAction import OpenAction
 from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 
-from ulauncher_jd.filesystem import next_available_component
-
 
 def display_type(type):
     return {"area": "Area", "category": "Category", "id": "ID"}[type]
@@ -19,9 +17,7 @@ def open_component_item(component_info):
     )
 
 
-def create_component_item(new_name, parent_info):
-
-    component_info = next_available_component(new_name, parent_info)
+def create_component_item(new_name, component_info, parent_info):
 
     description = f"Create a new {display_type(component_info.type)}"
     if parent_info.type is not None:

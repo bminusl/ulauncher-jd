@@ -6,7 +6,7 @@ from ulauncher.api.shared.action.RenderResultListAction import (
 from ulauncher.api.shared.event import KeywordQueryEvent
 
 from ulauncher_jd import BASEDIR_INFO
-from ulauncher_jd.filesystem import find, search
+from ulauncher_jd.filesystem import find, next_available_component, search
 from ulauncher_jd.items import create_component_item, open_component_item
 
 
@@ -39,13 +39,23 @@ class KeywordQueryEventListener(EventListener):
                 if parent_info and parent_info.type != "id":
                     # XXX: in 2 steps because black adds ' ' before `:`
                     x = len(query[1]) + 1
+                    new_name = user_text[x:].strip()
+
                     items.append(
                         create_component_item(
-                            user_text[x:].strip(), parent_info
+                            new_name,
+                            next_available_component(new_name, parent_info),
+                            parent_info,
                         )
                     )
 
-                items.append(create_component_item(user_text, BASEDIR_INFO))
+                items.append(
+                    create_component_item(
+                        user_text,
+                        next_available_component(user_text, BASEDIR_INFO),
+                        BASEDIR_INFO,
+                    )
+                )
 
         return RenderResultListAction(items)
 
