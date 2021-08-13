@@ -1,5 +1,8 @@
 import os
 
+from ulauncher.api.shared.action.ExtensionCustomAction import (
+    ExtensionCustomAction,
+)
 from ulauncher.api.shared.action.OpenAction import OpenAction
 from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 
@@ -26,7 +29,9 @@ def create_component_item(new_name, component_info, parent_info):
     # BBB: walrus operator
     if new_name:
         display_name = os.path.basename(component_info.abspath)
-        action = None
+        action = ExtensionCustomAction(
+            {"type": "mkdir", "abspath": component_info.abspath}
+        )
     else:
         display_name = '<span style="italic">Please enter a name</span>'
         action = None

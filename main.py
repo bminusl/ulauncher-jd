@@ -1,9 +1,12 @@
+import os
+
 from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.client.Extension import Extension
+from ulauncher.api.shared.action.DoNothingAction import DoNothingAction
 from ulauncher.api.shared.action.RenderResultListAction import (
     RenderResultListAction,
 )
-from ulauncher.api.shared.event import KeywordQueryEvent
+from ulauncher.api.shared.event import ItemEnterEvent, KeywordQueryEvent
 
 from ulauncher_jd import BASEDIR_INFO
 from ulauncher_jd.filesystem import find, next_available_component, search
@@ -14,6 +17,7 @@ class JohnnyDecimalExtension(Extension):
     def __init__(self):
         super().__init__()
         self.subscribe(KeywordQueryEvent, KeywordQueryEventListener())
+        self.subscribe(ItemEnterEvent, ItemEnterEventListener())
 
 
 class KeywordQueryEventListener(EventListener):
@@ -58,6 +62,17 @@ class KeywordQueryEventListener(EventListener):
                 )
 
         return RenderResultListAction(items)
+
+
+class ItemEnterEventListener(EventListener):
+    def on_event(self, event, extension):
+        data = event.get_data()
+        type = data["type"]
+
+        if type == "mkdir":
+            os.mkdir(data["abspath"])
+
+        return DoNothingAction()
 
 
 if __name__ == "__main__":
