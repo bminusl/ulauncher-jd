@@ -21,6 +21,13 @@
       "name": "Johnny Decimal (New)",
       "description": "Create a new Johnny Decimal component",
       "default_value": "jdn"
+    },
+    {
+      "id": "basedir",
+      "type": "input",
+      "name": "Base directory",
+      "description": "The root folder of the Johnny Decimal system",
+      "default_value": "~/Documents/jd"
     }
   ]
 }

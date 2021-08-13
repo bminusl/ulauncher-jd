@@ -6,9 +6,14 @@ from ulauncher.api.shared.action.DoNothingAction import DoNothingAction
 from ulauncher.api.shared.action.RenderResultListAction import (
     RenderResultListAction,
 )
-from ulauncher.api.shared.event import ItemEnterEvent, KeywordQueryEvent
+from ulauncher.api.shared.event import (
+    ItemEnterEvent,
+    KeywordQueryEvent,
+    PreferencesEvent,
+    PreferencesUpdateEvent,
+)
 
-from ulauncher_jd import BASEDIR_INFO
+from ulauncher_jd import ComponentInfo, preferences
 from ulauncher_jd.filesystem import find, next_available_component, search
 from ulauncher_jd.items import create_component_item, open_component_item
 
@@ -19,12 +24,18 @@ class JohnnyDecimalExtension(Extension):
         self.subscribe(KeywordQueryEvent, KeywordQueryEventListener())
         self.subscribe(ItemEnterEvent, ItemEnterEventListener())
 
+        self.subscribe(PreferencesEvent, PreferencesEventListener())
+        self.subscribe(PreferencesUpdateEvent, PreferencesUpdateEventListener())
+
+    def get_default_basedir_info(self, basedir):
+        return ComponentInfo(None, basedir, None, None)
+
 
 class KeywordQueryEventListener(EventListener):
     def on_event(self, event, extension):
 
         # XXX: should this be here?
-        os.makedirs(BASEDIR_INFO.abspath, exist_ok=True)
+        os.makedirs(preferences["basedir"], exist_ok=True)
 
         query = event.query.split(" ")
         kw = query[0]
@@ -59,8 +70,10 @@ class KeywordQueryEventListener(EventListener):
                 items.append(
                     create_component_item(
                         user_text,
-                        next_available_component(user_text, BASEDIR_INFO),
-                        BASEDIR_INFO,
+                        next_available_component(
+                            user_text, preferences["basedir_info"]
+                        ),
+                        preferences["basedir_info"],
                     )
                 )
 
@@ -76,6 +89,29 @@ class ItemEnterEventListener(EventListener):
             os.mkdir(data["abspath"])
 
         return DoNothingAction()
+
+
+class PreferencesEventListener(EventListener):
+    def on_event(self, event, extension):
+        preferences.update(event.preferences)
+        preferences["basedir"] = os.path.expanduser(
+            os.path.expandvars(preferences["basedir"])
+        )
+        preferences["basedir_info"] = extension.get_default_basedir_info(
+            preferences["basedir"]
+        )
+
+
+class PreferencesUpdateEventListener(EventListener):
+    def on_event(self, event, extension):
+        preferences[event.id] = event.new_value
+        if event.id == "basedir":
+            preferences["basedir"] = os.path.expanduser(
+                os.path.expandvars(preferences["basedir"])
+            )
+            preferences["basedir_info"] = extension.get_default_basedir_info(
+                preferences["basedir"]
+            )
 
 
 if __name__ == "__main__":

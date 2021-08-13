@@ -1,6 +1,6 @@
 import os
 
-from . import BASEDIR, ComponentInfo
+from . import ComponentInfo, preferences
 from .format import (
     format_number,
     parse_number,
@@ -13,9 +13,9 @@ from .format import (
 def search(query):
     query = query.lower()
 
-    for root, dirs, files in os.walk(BASEDIR):
+    for root, dirs, files in os.walk(preferences["basedir"]):
 
-        depth = root.count(os.sep) - BASEDIR.count(os.sep)
+        depth = root.count(os.sep) - preferences["basedir"].count(os.sep)
         if depth > 2:
             continue
 
