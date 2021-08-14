@@ -38,8 +38,6 @@ class FormatTest(unittest.TestCase):
         self.assertEqual(parse_number("10.100"), (None, None))
         self.assertEqual(parse_number("aa.bb"), (None, None))
 
-
-
     def test_valid_area_numbers(self):
         self.assertEqual(list(valid_area_numbers()),
                          [(10, 19), (20, 29), (30, 39), (40, 49), (50, 59), (60, 69), (70, 79), (80, 89), (90, 99)])
