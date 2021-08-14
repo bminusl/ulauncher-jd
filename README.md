@@ -36,6 +36,6 @@ NB: The new component number will be automatically picked depending on availabil
 
 **Examples**
 
-- `jdn foo` to create a new area named `foo`
-- `jdn 10-19 foo` to create a new category (inside area `10-19`) named `foo`
-- `jdn 18 foo` to create a new ID (inside category `18`) named `foo`
+- `jdn foo` to create a new area named `XX-XX foo`
+- `jdn 10-19 foo` to create a new category (inside area `10-19`) named `XX foo`
+- `jdn 18 foo` to create a new ID (inside category `18`) named `XX.XX foo`
