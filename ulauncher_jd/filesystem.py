@@ -78,5 +78,5 @@ def next_available_component(new_name, parent_info):
         type=new_type,
         abspath=os.path.join(parent_info.abspath, new_name),
         number=new_number,
-        number_data=None,
+        number_data=candidate_data,
     )
